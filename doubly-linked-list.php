@@ -104,38 +104,140 @@ class DoublyLinkedList {
 		$this->tail       = $newNode;
 	}
 
-    function insertAtPosition($data, $position) {
-        $newNode = new Node( $data );
+	function insertAtPosition( $data, $position ) {
+		$newNode = new Node( $data );
 
-        if ($position === 1) {
-            $this->insertAtBeginning($data);
-            return;
-        }
+		if ( $position === 1 ) {
+			$this->insertAtBeginning( $data );
+			return;
+		}
 
-        $currentNode = $this->head;
-        $count = 1;
+		$currentNode = $this->head;
+		$count       = 1;
 
-        while( $count < $position && $currentNode !== null ) {
-            $currentNode = $currentNode->next;
-            $count++;
-        }
+		while ( $count < $position && $currentNode !== null ) {
+			$currentNode = $currentNode->next;
+			++$count;
+		}
 
-        if ($currentNode === null) {
-            echo "Invalid Position \n";
-            return;
-        }
+		if ( $currentNode === null ) {
+			echo "Invalid Position \n";
+			return;
+		}
 
-        if ($currentNode->next === null) {
-            $this->insertAtEnd($data);
-            return;
-        }
+		if ( $currentNode->next === null ) {
+			$this->insertAtEnd( $data );
+			return;
+		}
 
-        $nextNode = $currentNode->next;
-        $newNode->prev = $currentNode;
-        $currentNode->next = $newNode;
-        $newNode->next = $nextNode;
-        $nextNode->prev = $newNode;
-    }
+		$nextNode          = $currentNode->next;
+		$newNode->prev     = $currentNode;
+		$currentNode->next = $newNode;
+		$newNode->next     = $nextNode;
+		$nextNode->prev    = $newNode;
+	}
+
+	function removeFromBeginning() {
+		if ( $this->head === null ) {
+			echo "The list is empty \n";
+			return;
+		}
+
+		$removedNode = $this->head;
+
+		if ( $this->head->next === null ) {
+			$this->head = null;
+			$this->tail = null;
+			return;
+		}
+
+		$this->head        = $removedNode->next;
+		$removedNode->next = null;
+	}
+
+	function removeFromEnd() {
+		if ( $this->head === null ) {
+			echo "The list is empty \n";
+			return;
+		}
+
+		if ( $this->head->next === null ) {
+			$this->head = null;
+			$this->tail = null;
+			return;
+		}
+
+		$prevNode       = $this->tail->prev;
+		$prevNode->next = null;
+		$this->tail     = $prevNode;
+	}
+
+	function removeAtPosition( $position ) {
+		if ( $this->head === null ) {
+			echo "The list is empty \n";
+			return;
+		}
+
+		if ( $position === 1 ) {
+			$this->removeFromBeginning();
+			return;
+		}
+
+		$currentNode = $this->head;
+		$count       = 1;
+
+		while ( $count < $position && $currentNode !== null ) {
+			$currentNode = $currentNode->next;
+			++$count;
+		}
+
+		if ( $currentNode === null ) {
+			echo "Invalid position \n";
+			return;
+		}
+
+		if ( $currentNode->next === null ) {
+			$this->removeFromEnd();
+			return;
+		}
+
+		$prevNode = $currentNode->prev;
+		$nextNode = $currentNode->next;
+
+		$prevNode->next    = $currentNode->next;
+		$nextNode->prev    = $prevNode;
+		$currentNode->prev = null;
+		$currentNode->next = null;
+	}
+
+	function searchNode( $key ) {
+		$currentNode = $this->head;
+
+		while ( $currentNode !== null ) {
+			if ( $currentNode->data === $key ) {
+				echo 'The key ' . $currentNode->data . " Does exists \n";
+				return $currentNode;
+			}
+
+			$currentNode = $currentNode->next;
+		}
+
+		echo 'The key ' . $key . " doesn't exist \n";
+		return null;
+	}
+
+	function countNode() {
+		$currentNode = $this->head;
+		$count       = 0;
+
+		while ( $currentNode !== null ) {
+			$currentNode = $currentNode->next;
+			++$count;
+		}
+
+		echo 'Total node is: ' . $count . "\n";
+		return $count;
+	}
 }
 
 // Example Usage
@@ -147,4 +249,7 @@ $linkedList->insertAtBeginning( 4 );
 $linkedList->insertAtBeginning( 5 );
 $linkedList->insertAtEnd( 6 );
 $linkedList->insertAtPosition( 8, 3 );
+$linkedList->removeAtPosition( 3 );
+$linkedList->searchNode( 50 );
+$linkedList->countNode();
 $linkedList->displayForward( true );
