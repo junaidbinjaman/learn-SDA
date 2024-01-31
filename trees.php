@@ -19,7 +19,7 @@
  * including representing file systems, organizing data in databases, and implementing
  * various searching and sorting algorithms.
  *
- * @author Your Name
+ * @author Junaid Bin Jaman
  * @version 1.0
  */
 
