@@ -99,6 +99,67 @@ class LinkedList {
     this.size--;
     return this;
   }
+
+  removeElement(element) {
+    var currentNode = this.head;
+    var previousNode = null;
+
+    for (let i = 0; i < this.size; i++) {
+      if (currentNode.element == element) {
+        break;
+      }
+
+      previousNode = currentNode;
+      currentNode = currentNode.next;
+    }
+
+    if (!currentNode) {
+      return 'Invalid element';
+    }
+    
+    previousNode.next = currentNode.next;
+    currentNode.next = null;
+
+    this.size--;
+    return this;
+  }
+
+  indexOf(element) {
+    var count = 0;
+    var currentNode = this.head;
+
+    for (let i = 0; i < this.size; i++) {
+      if (currentNode.element === element) {
+        break;
+      }
+
+      count++;
+      currentNode = currentNode.next;
+    }
+
+    
+    if (!currentNode) {
+      return 'Invalid element';      
+    }
+
+    return count;
+  }
+
+  isEmpty() {
+    return this.size === 0;
+  }
+
+  printList() {
+    var currentNode = this.head;
+    var str = '';
+
+    for (let i = 0; i < this.size; i++) {
+      str += currentNode.element + ' ';
+      currentNode = currentNode.next;      
+    }
+
+    return str;
+  }
 }
 
 var ll = new LinkedList();
@@ -110,3 +171,5 @@ ll.add(50);
 
 ll.insertAt(60, 4);
 // ll.remove(3);
+
+ll.printList();
